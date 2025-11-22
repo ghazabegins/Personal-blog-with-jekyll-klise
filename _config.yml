@@ -1,8 +1,8 @@
 # Site settings
-title: Ghaza # site title
+title: Ghaza Algifarié # site title
 description: >- # site description
   He's writing in Bahasa about web technology and experience as a journal 
-  for documentation things that he learned, meet him <a href="https://github.com/piharpi" target="_blank" rel="noopener">@github</a>.
+  for documentation things that he learned, meet him <a href="https://github.com/ghazabegins" target="_blank" rel="noopener">@github</a>.
 lang: en-US # default lang
 timezone: Asia/Jakarta # set your timezone
 image: assets/img/ogp.png # This image used for Open Graph more info https://ogp.me/
@@ -14,12 +14,13 @@ author:
   name: Ghaza Algifarié # author name
   bio: >- # tell to the world
     Photography and Cyber Security Enthusiast, Based in Medan, Indonesia. Follow me on Instagram <a href="https://instagram.com/itsghaza_" target="_blank" rel="noopener">@itsghaza_</a>
-  username: username # general username
-  github: github_username # github username
-  twitter: twitter_username # twitter username
-  facebook: facebook_username # facebook username
-  email: your-email@email.com # email adress
-  avatar: /assets/img/avatar.jpg # change with your own avatar
+  username: ghazabegins # general username
+  github: ghazabegins # github username
+  twitter: itsghaza_ # twitter username
+  facebook: ghazkuu # facebook username
+  instagram: itsghaza_ # instagram username
+  email: mail@ghazabegins.com # email adress
+  avatar: /assets/img/avatar2.jpg # change with your own avatar
 
 # URL settings
 url: "https://ghazabegins.github.io" #
