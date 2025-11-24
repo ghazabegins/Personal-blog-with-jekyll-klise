@@ -7,13 +7,17 @@ description: Sumsel United FC berhasil membalikkan keadaan (comeback) dan menakl
 
 **PALEMBANG** – Sumsel United FC berhasil membalikkan keadaan (comeback) dan menaklukkan PSMS Medan dengan skor tipis **2-1** dalam laga lanjutan Pegadaian Championship Liga 2 2025/2026 yang berlangsung di Stadion Gelora Sriwijaya Jakabaring, Palembang, pada Senin (24/11/2025) sore.
 
-<img src="/assets/images/sumsel-vs-psms/TJP_1805.JPG" alt="PSMSvsSUMSEL Photo by Ghaza">
+<figure>
+<img src="/assets/images/sumsel-vs-psms/TJP_1805.JPG" alt="photo by Ghaza">
+<figcaption>Fig 1. Terminal emulator, instalasi package dan check service.</figcaption>
+</figure>
 
 ### **Detail Pertandingan**
 
 | Tim Tuan Rumah | Skor Akhir | Tim Tamu |
 | :---: | :---: | :---: |
 | **Sumsel United FC** | **2 - 1** | **PSMS Medan** |
+
 
 * **Tempat:** Stadion Gelora Sriwijaya Jakabaring, Palembang
 * **Waktu *Kick-off*:** 15.30 WIB
