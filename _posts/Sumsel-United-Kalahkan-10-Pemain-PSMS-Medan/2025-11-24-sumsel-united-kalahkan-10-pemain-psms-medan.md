@@ -5,9 +5,6 @@ tags: [liga2, pegadaian liga2, psms medan, sumsel united]
 description: Sumsel United FC berhasil membalikkan keadaan (comeback) dan menaklukkan PSMS Medan dengan skor tipis 2-1 dalam laga lanjutan Pegadaian Championship Liga 2
 ---
 
-## ⚽ Laporan Pertandingan Liga 2 Championship
-### **Sumsel United Tundukkan Ayam Kinantan dengan Skor Dramatis 2-1**
-
 **PALEMBANG** – Sumsel United FC berhasil membalikkan keadaan (comeback) dan menaklukkan PSMS Medan dengan skor tipis **2-1** dalam laga lanjutan Pegadaian Championship Liga 2 2025/2026 yang berlangsung di Stadion Gelora Sriwijaya Jakabaring, Palembang, pada Senin (24/11/2025) sore.
 
 <img src="/assets/images/sumsel-vs-psms/TJP_1805.JPG" alt="PSMSvsSUMSEL Photo by Ghaza">
