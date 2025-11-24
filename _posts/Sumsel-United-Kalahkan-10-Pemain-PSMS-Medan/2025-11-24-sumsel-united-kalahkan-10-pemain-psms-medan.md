@@ -9,7 +9,7 @@ description: Sumsel United FC berhasil membalikkan keadaan (comeback) dan menakl
 
 <figure>
 <img src="/assets/images/sumsel-vs-psms/TJP_1805.JPG" alt="photo by Ghaza">
-<figcaption>Fig 1. Terminal emulator, instalasi package dan check service.</figcaption>
+<figcaption>PSMS Medan VS Sumsel United</figcaption>
 </figure>
 
 ### **Detail Pertandingan**
