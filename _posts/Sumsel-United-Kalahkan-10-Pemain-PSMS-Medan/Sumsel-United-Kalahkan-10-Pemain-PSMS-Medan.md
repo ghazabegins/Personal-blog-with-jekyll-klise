@@ -3,9 +3,6 @@ title: Sumsel United Kalahkan 10 Pemain PSMS Medan
 date: 2025-11-24 10:00:00 +07:00
 tags: [liga2, pegadaian liga2, psms medan, sumsel united]
 description: Sumsel United FC berhasil membalikkan keadaan (comeback) dan menaklukkan PSMS Medan dengan skor tipis 2-1 dalam laga lanjutan Pegadaian Championship Liga 2
-layout: post
-author: Ghaza Algifarié
-image: /assets/images/sumsel-vs-psms/TJP_1805.JPG
 ---
 
 ## ⚽ Laporan Pertandingan Liga 2 Championship
