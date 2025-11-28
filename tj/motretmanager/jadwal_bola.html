@@ -155,7 +155,7 @@
         const ps = document.getElementById('pick_selesai');
         const wf = document.getElementById('waktu_final');
 
-        function updWaktu() { if(pm.value && ps.value) wf.value = `${pm.value} - ${ps.value} WIB`; }
+        function updWaktu() { if(pm.value && ps.value) wf.value = `${pm.value} - ${ps.value}`; }
         pm.addEventListener('change', function() {
             if(this.value) {
                 let [h, m] = this.value.split(':').map(Number);
