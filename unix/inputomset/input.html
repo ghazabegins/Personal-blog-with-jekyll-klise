@@ -6,15 +6,14 @@
     <title>Input Setoran - Secured</title>
     
     <script>
-        // Cek apakah user punya "tiket" login?
         if (sessionStorage.getItem('isLoggedIn') !== 'true') {
-            // Kalau tidak, tendang ke halaman login
             window.location.href = "index.html";
         }
     </script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
         body { background-color: #f4f6f8; font-family: 'Poppins', sans-serif; padding-bottom: 60px; }
@@ -24,7 +23,7 @@
             position: absolute; top: 20px; right: 20px;
             background: rgba(255,255,255,0.2); color: #2c3e50; 
             border: none; padding: 8px 15px; border-radius: 20px; 
-            font-size: 0.8rem; font-weight: bold; cursor: pointer;
+            font-size: 0.8rem; font-weight: bold; cursor: pointer; z-index: 99;
         }
 
         /* HEADER */
@@ -37,27 +36,55 @@
         .app-title { font-weight: 800; color: #2c3e50; margin: 0; font-size: 1.4rem; text-transform: uppercase; }
         .app-subtitle { color: #8898aa; font-size: 0.85rem; margin-top: 5px; }
 
-        /* CARDS & INPUTS */
+        /* FORM STYLES */
         .card-custom { border: none; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); margin-bottom: 20px; overflow: hidden; background: white; }
         .header-ps { background: #e3f2fd; color: #0d6efd; padding: 12px 20px; }
         .header-fnb { background: #e8f5e9; color: #198754; padding: 12px 20px; }
         .cat-title { font-weight: 800; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
         .card-body { padding: 20px; }
         .form-label { font-size: 0.75rem; color: #8898aa; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; }
-        .form-control { border: 2px solid #f0f2f5; padding: 12px; font-weight: 600; border-radius: 12px; font-size: 1rem; }
+        .form-control { border: 2px solid #f0f2f5; padding: 12px; font-weight: 600; border-radius: 12px; font-size: 1rem; transition: all 0.3s;}
+        .form-control:focus { border-color: #b0c4de; box-shadow: none; }
         .input-total { background-color: #fff; border-width: 2px; font-weight: 800; font-size: 1.2rem; color: #333; text-align: right; }
         .border-ps { border-color: #90caf9; }
         .border-fnb { border-color: #a5d6a7; }
         .btn-submit { width: 100%; padding: 16px; font-weight: 800; border-radius: 15px; font-size: 1.1rem; background: #2c3e50; border: none; color: #fff; box-shadow: 0 10px 20px rgba(44, 62, 80, 0.2); }
         
-        /* SUCCESS SCREEN */
-        #success-view { display: none; text-align: center; padding: 40px 20px; background: white; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 20px; }
-        .success-circle { width: 100px; height: 100px; background: #d1e7dd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .checkmark { width: 50px; height: 50px; stroke: #198754; stroke-width: 4; fill: none; stroke-dasharray: 100; stroke-dashoffset: 100; animation: drawCheck 0.8s ease-out forwards 0.4s; }
-        .success-title { font-weight: 800; color: #198754; font-size: 1.8rem; margin-bottom: 10px; }
+        /* === SUCCESS RECEIPT STYLES (Tampilan Struk) === */
+        #success-view { display: none; text-align: center; margin-top: 10px; }
         
-        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-        @keyframes drawCheck { 0% { stroke-dashoffset: 100; } 100% { stroke-dashoffset: 0; } }
+        .receipt-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: relative;
+            margin-bottom: 20px;
+        }
+        /* Efek Bergerigi di atas struk (Opsional - Cosmetic) */
+        .receipt-card::before {
+            content: ""; position: absolute; top: -10px; left: 0; right: 0; height: 10px;
+            background: radial-gradient(circle, transparent, transparent 50%, white 50%, white 100%) -7px -8px / 16px 16px repeat-x;
+        }
+
+        .success-icon { 
+            width: 70px; height: 70px; background: #d1e7dd; border-radius: 50%; color: #198754;
+            display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 15px;
+        }
+        
+        .receipt-title { font-weight: 800; font-size: 1.5rem; color: #198754; margin-bottom: 5px; }
+        .receipt-subtitle { color: #888; font-size: 0.9rem; margin-bottom: 25px; border-bottom: 2px dashed #eee; padding-bottom: 15px; }
+
+        .receipt-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 8px; align-items: center; }
+        .receipt-label { color: #666; font-weight: 500; }
+        .receipt-value { color: #333; font-weight: 700; }
+        
+        .receipt-divider { border-bottom: 1px solid #eee; margin: 10px 0; }
+        
+        .cat-badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 5px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+        .badge-ps { background: #e3f2fd; color: #0d6efd; }
+        .badge-fnb { background: #e8f5e9; color: #198754; }
+
     </style>
 </head>
 <body>
@@ -113,12 +140,57 @@
             </div>
 
             <div id="success-view">
-                <div class="success-circle">
-                    <svg class="checkmark" viewBox="0 0 50 50"><path d="M10 25 L20 35 L40 15" /></svg>
+                <div class="receipt-card">
+                    <div class="success-icon">✔</div>
+                    <div class="receipt-title">BERHASIL!</div>
+                    <div class="receipt-subtitle">Data telah tersimpan di sistem</div>
+
+                    <div class="receipt-row">
+                        <span class="receipt-label">Tanggal</span>
+                        <span class="receipt-value" id="res-tanggal">-</span>
+                    </div>
+                    
+                    <div class="receipt-divider"></div>
+
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="cat-badge badge-ps">RENTAL PS</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Total Omset</span>
+                        <span class="receipt-value text-primary" id="res-ps-total">Rp 0</span>
+                    </div>
+                    <div class="receipt-row small text-muted">
+                        <span class="receipt-label ms-2">└ Tunai</span>
+                        <span class="receipt-value" style="font-weight: 500;" id="res-ps-cash">Rp 0</span>
+                    </div>
+                    <div class="receipt-row small text-muted">
+                        <span class="receipt-label ms-2">└ QRIS</span>
+                        <span class="receipt-value" style="font-weight: 500;" id="res-ps-qris">Rp 0</span>
+                    </div>
+
+                    <div class="receipt-divider"></div>
+
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="cat-badge badge-fnb">FNB / MAKANAN</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Total Omset</span>
+                        <span class="receipt-value text-success" id="res-fnb-total">Rp 0</span>
+                    </div>
+                    <div class="receipt-row small text-muted">
+                        <span class="receipt-label ms-2">└ Tunai</span>
+                        <span class="receipt-value" style="font-weight: 500;" id="res-fnb-cash">Rp 0</span>
+                    </div>
+                    <div class="receipt-row small text-muted">
+                        <span class="receipt-label ms-2">└ QRIS</span>
+                        <span class="receipt-value" style="font-weight: 500;" id="res-fnb-qris">Rp 0</span>
+                    </div>
+
                 </div>
-                <h2 class="success-title">Berhasil!</h2>
-                <p class="text-muted">Data telah tersimpan.</p>
-                <button onclick="resetInput()" class="btn btn-outline-dark w-100 py-3 fw-bold rounded-4">📝 INPUT DATA BARU</button>
+
+                <button onclick="resetInput()" class="btn btn-dark w-100 py-3 fw-bold rounded-4 shadow">
+                    📝 INPUT DATA BARU
+                </button>
             </div>
 
         </div>
@@ -126,16 +198,15 @@
 </div>
 
 <script>
-    // --- GANTI URL WEB APP KAMU DISINI ---
+    // --- ⚠️ PASTE URL WEB APP APPS SCRIPT DISINI ---
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyr4HaHcMknb_g9XmR-vZHbNCWSaIl1VokxtwVmmg1RuBeFWW1xQIM7_kM-sWXczCe1/exec'; 
-    // ------------------------------------
+    // ---------------------------------------------
 
     document.getElementById('tanggal').valueAsDate = new Date();
 
-    // Fungsi Logout
     function logout() {
-        sessionStorage.removeItem('isLoggedIn'); // Hapus sesi
-        window.location.href = "index.html"; // Balik ke login
+        sessionStorage.removeItem('isLoggedIn');
+        window.location.href = "index.html";
     }
 
     // Auto Hitung
@@ -152,38 +223,77 @@
     document.querySelectorAll('.ps-calc').forEach(item => item.addEventListener('input', autoHitungPS));
     document.querySelectorAll('.fnb-calc').forEach(item => item.addEventListener('input', autoHitungFNB));
 
-    // Kirim Data
+    // Form Variables
     const form = document.forms['omsetForm'];
     const btn = document.querySelector('.btn-submit');
     const formView = document.getElementById('form-view');
     const successView = document.getElementById('success-view');
 
+    // Helper Format Rupiah
+    const fmt = (val) => 'Rp ' + Number(val).toLocaleString('id-ID');
+
+    // KIRIM DATA
     form.addEventListener('submit', e => {
         e.preventDefault();
-        btn.disabled = true;
-        btn.innerHTML = 'Mengirim...';
 
-        const data = {
-            tanggal: document.getElementById('tanggal').value,
-            ps_total: document.getElementById('ps_total').value,
-            ps_cash: document.getElementById('ps_cash').value,
-            ps_qris: document.getElementById('ps_qris').value,
-            fnb_total: document.getElementById('fnb_total').value,
-            fnb_cash: document.getElementById('fnb_cash').value,
-            fnb_qris: document.getElementById('fnb_qris').value
-        };
+        // 1. Ambil Nilai
+        const valDate = document.getElementById('tanggal').value;
+        const valPsTotal = document.getElementById('ps_total').value;
+        const valPsCash = document.getElementById('ps_cash').value || 0;
+        const valPsQris = document.getElementById('ps_qris').value || 0;
+        
+        const valFnbTotal = document.getElementById('fnb_total').value;
+        const valFnbCash = document.getElementById('fnb_cash').value || 0;
+        const valFnbQris = document.getElementById('fnb_qris').value || 0;
 
-        fetch(scriptURL, { method: 'POST', body: JSON.stringify(data)})
-        .then(response => {
-            formView.style.display = 'none';
-            successView.style.display = 'block';
-            btn.disabled = false;
-            btn.innerHTML = 'KIRIM LAPORAN 🚀';
-        })
-        .catch(error => {
-            alert("Gagal koneksi!");
-            btn.disabled = false;
-            btn.innerHTML = 'KIRIM LAPORAN 🚀';
+        // 2. Konfirmasi Dulu
+        Swal.fire({
+            title: 'Cek Data',
+            html: `<p>Total PS: <b>${fmt(valPsTotal)}</b><br>Total FNB: <b>${fmt(valFnbTotal)}</b></p>`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#2c3e50',
+            confirmButtonText: 'Kirim',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                
+                btn.disabled = true;
+                btn.innerHTML = 'Mengirim... ⏳';
+
+                const data = {
+                    tanggal: valDate,
+                    ps_total: valPsTotal, ps_cash: valPsCash, ps_qris: valPsQris,
+                    fnb_total: valFnbTotal, fnb_cash: valFnbCash, fnb_qris: valFnbQris
+                };
+
+                fetch(scriptURL, { method: 'POST', body: JSON.stringify(data)})
+                .then(response => {
+                    // 3. JIKA SUKSES -> ISI DATA KE STRUK
+                    document.getElementById('res-tanggal').innerText = valDate;
+                    
+                    document.getElementById('res-ps-total').innerText = fmt(valPsTotal);
+                    document.getElementById('res-ps-cash').innerText = fmt(valPsCash);
+                    document.getElementById('res-ps-qris').innerText = fmt(valPsQris);
+
+                    document.getElementById('res-fnb-total').innerText = fmt(valFnbTotal);
+                    document.getElementById('res-fnb-cash').innerText = fmt(valFnbCash);
+                    document.getElementById('res-fnb-qris').innerText = fmt(valFnbQris);
+
+                    // 4. Ganti Tampilan
+                    formView.style.display = 'none';
+                    successView.style.display = 'block';
+                    window.scrollTo(0,0); // Scroll ke atas
+
+                    btn.disabled = false;
+                    btn.innerHTML = 'KIRIM LAPORAN 🚀';
+                })
+                .catch(error => {
+                    Swal.fire('Gagal', 'Cek koneksi internet!', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = 'KIRIM LAPORAN 🚀';
+                });
+            }
         });
     });
 
