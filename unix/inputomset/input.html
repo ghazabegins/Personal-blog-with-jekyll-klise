@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Setoran - Secured</title>
+    
+    <script>
+        // Cek apakah user punya "tiket" login?
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            // Kalau tidak, tendang ke halaman login
+            window.location.href = "index.html";
+        }
+    </script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { background-color: #f4f6f8; font-family: 'Poppins', sans-serif; padding-bottom: 60px; }
+        
+        /* Logout Button */
+        .logout-btn {
+            position: absolute; top: 20px; right: 20px;
+            background: rgba(255,255,255,0.2); color: #2c3e50; 
+            border: none; padding: 8px 15px; border-radius: 20px; 
+            font-size: 0.8rem; font-weight: bold; cursor: pointer;
+        }
+
+        /* HEADER */
+        .app-header {
+            text-align: center; padding: 30px 20px 20px; background: white;
+            border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; position: relative;
+        }
+        .app-logo { width: 70px; height: 70px; object-fit: cover; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .app-title { font-weight: 800; color: #2c3e50; margin: 0; font-size: 1.4rem; text-transform: uppercase; }
+        .app-subtitle { color: #8898aa; font-size: 0.85rem; margin-top: 5px; }
+
+        /* CARDS & INPUTS */
+        .card-custom { border: none; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); margin-bottom: 20px; overflow: hidden; background: white; }
+        .header-ps { background: #e3f2fd; color: #0d6efd; padding: 12px 20px; }
+        .header-fnb { background: #e8f5e9; color: #198754; padding: 12px 20px; }
+        .cat-title { font-weight: 800; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+        .card-body { padding: 20px; }
+        .form-label { font-size: 0.75rem; color: #8898aa; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; }
+        .form-control { border: 2px solid #f0f2f5; padding: 12px; font-weight: 600; border-radius: 12px; font-size: 1rem; }
+        .input-total { background-color: #fff; border-width: 2px; font-weight: 800; font-size: 1.2rem; color: #333; text-align: right; }
+        .border-ps { border-color: #90caf9; }
+        .border-fnb { border-color: #a5d6a7; }
+        .btn-submit { width: 100%; padding: 16px; font-weight: 800; border-radius: 15px; font-size: 1.1rem; background: #2c3e50; border: none; color: #fff; box-shadow: 0 10px 20px rgba(44, 62, 80, 0.2); }
+        
+        /* SUCCESS SCREEN */
+        #success-view { display: none; text-align: center; padding: 40px 20px; background: white; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 20px; }
+        .success-circle { width: 100px; height: 100px; background: #d1e7dd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .checkmark { width: 50px; height: 50px; stroke: #198754; stroke-width: 4; fill: none; stroke-dasharray: 100; stroke-dashoffset: 100; animation: drawCheck 0.8s ease-out forwards 0.4s; }
+        .success-title { font-weight: 800; color: #198754; font-size: 1.8rem; margin-bottom: 10px; }
+        
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        @keyframes drawCheck { 0% { stroke-dashoffset: 100; } 100% { stroke-dashoffset: 0; } }
+    </style>
+</head>
+<body>
+
+<div class="app-header">
+    <button onclick="logout()" class="logout-btn">🔒 Keluar</button>
+    <img src="\\wsl.localhost\Ubuntu\home\unix\omsetps\logo.png" alt="Logo" class="app-logo">
+    <h1 class="app-title">UNIX PLAYSTATION</h1>
+    <p class="app-subtitle">Laporan Setoran Harian</p>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            
+            <div id="form-view">
+                <form id="omsetForm">
+                    <div class="mb-4 px-2">
+                        <label class="form-label ms-1">Tanggal Transaksi</label>
+                        <input type="date" class="form-control fw-bold text-center" id="tanggal" required>
+                    </div>
+
+                    <div class="card-custom">
+                        <div class="header-ps"><div class="cat-title">🎮 RENTAL PS</div></div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label text-primary">Total Omset PS</label>
+                                <input type="number" class="form-control input-total border-ps" id="ps_total" placeholder="0">
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-6"><label class="form-label">Tunai</label><input type="number" class="form-control ps-calc" id="ps_cash" placeholder="0"></div>
+                                <div class="col-6"><label class="form-label">QRIS</label><input type="number" class="form-control ps-calc" id="ps_qris" placeholder="0"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-custom">
+                        <div class="header-fnb"><div class="cat-title">🍔 FNB / MAKANAN</div></div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label text-success">Total Omset FNB</label>
+                                <input type="number" class="form-control input-total border-fnb" id="fnb_total" placeholder="0">
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-6"><label class="form-label">Tunai</label><input type="number" class="form-control fnb-calc" id="fnb_cash" placeholder="0"></div>
+                                <div class="col-6"><label class="form-label">QRIS</label><input type="number" class="form-control fnb-calc" id="fnb_qris" placeholder="0"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">KIRIM LAPORAN 🚀</button>
+                </form>
+            </div>
+
+            <div id="success-view">
+                <div class="success-circle">
+                    <svg class="checkmark" viewBox="0 0 50 50"><path d="M10 25 L20 35 L40 15" /></svg>
+                </div>
+                <h2 class="success-title">Berhasil!</h2>
+                <p class="text-muted">Data telah tersimpan.</p>
+                <button onclick="resetInput()" class="btn btn-outline-dark w-100 py-3 fw-bold rounded-4">📝 INPUT DATA BARU</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- GANTI URL WEB APP KAMU DISINI ---
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyr4HaHcMknb_g9XmR-vZHbNCWSaIl1VokxtwVmmg1RuBeFWW1xQIM7_kM-sWXczCe1/exec'; 
+    // ------------------------------------
+
+    document.getElementById('tanggal').valueAsDate = new Date();
+
+    // Fungsi Logout
+    function logout() {
+        sessionStorage.removeItem('isLoggedIn'); // Hapus sesi
+        window.location.href = "index.html"; // Balik ke login
+    }
+
+    // Auto Hitung
+    function autoHitungPS() {
+        let cash = Number(document.getElementById('ps_cash').value) || 0;
+        let qris = Number(document.getElementById('ps_qris').value) || 0;
+        document.getElementById('ps_total').value = cash + qris;
+    }
+    function autoHitungFNB() {
+        let cash = Number(document.getElementById('fnb_cash').value) || 0;
+        let qris = Number(document.getElementById('fnb_qris').value) || 0;
+        document.getElementById('fnb_total').value = cash + qris;
+    }
+    document.querySelectorAll('.ps-calc').forEach(item => item.addEventListener('input', autoHitungPS));
+    document.querySelectorAll('.fnb-calc').forEach(item => item.addEventListener('input', autoHitungFNB));
+
+    // Kirim Data
+    const form = document.forms['omsetForm'];
+    const btn = document.querySelector('.btn-submit');
+    const formView = document.getElementById('form-view');
+    const successView = document.getElementById('success-view');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.innerHTML = 'Mengirim...';
+
+        const data = {
+            tanggal: document.getElementById('tanggal').value,
+            ps_total: document.getElementById('ps_total').value,
+            ps_cash: document.getElementById('ps_cash').value,
+            ps_qris: document.getElementById('ps_qris').value,
+            fnb_total: document.getElementById('fnb_total').value,
+            fnb_cash: document.getElementById('fnb_cash').value,
+            fnb_qris: document.getElementById('fnb_qris').value
+        };
+
+        fetch(scriptURL, { method: 'POST', body: JSON.stringify(data)})
+        .then(response => {
+            formView.style.display = 'none';
+            successView.style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = 'KIRIM LAPORAN 🚀';
+        })
+        .catch(error => {
+            alert("Gagal koneksi!");
+            btn.disabled = false;
+            btn.innerHTML = 'KIRIM LAPORAN 🚀';
+        });
+    });
+
+    function resetInput() {
+        form.reset();
+        document.getElementById('tanggal').valueAsDate = new Date();
+        successView.style.display = 'none';
+        formView.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
