@@ -1,145 +1,97 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light">
+<html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Motret Manager</title>
-    <link rel="icon" href="https://ghazabegins.cyou/unix/inputomset/logo.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login - Dashboard</title>
+    <link rel="icon" href="https://ghazabegins.cyou/tj/logo.PNG" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. VARIABEL WARNA (DEFAULT: DARK MODE) --- */
         :root {
-            /* Warna Gelap sebagai Utama */
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --card-bg: #1e1e1e;
-            --accent: #38ef7d;
-            --input-bg: #2d2d2d;
-            --input-border: #444;
-            --error: #e74c3c;
-            --logo-filter: none; /* Logo Putih (Normal) */
+            --bg-color: #121212; --text-color: #e0e0e0; --card-bg: #1e1e1e;
+            --accent: #38ef7d; --input-bg: #2d2d2d; --input-border: #444;
+            --error: #e74c3c; --logo-filter: none;
         }
-
-        /* Jika user memaksa Light Mode (Opsional) */
         [data-theme="light"] {
-            --bg-color: #f0f2f5;
-            --text-color: #333;
-            --card-bg: #ffffff;
-            --accent: #11998e;
-            --input-bg: #fcfcfc;
-            --input-border: #e1e1e1;
-            --logo-filter: invert(1); /* Logo jadi Hitam */
+            --bg-color: #f0f2f5; --text-color: #333; --card-bg: #ffffff;
+            --accent: #11998e; --input-bg: #fcfcfc; --input-border: #e1e1e1;
+            --logo-filter: invert(1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            background-color: var(--bg-color); color: var(--text-color);
+            height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
         }
 
         .login-card {
             background: var(--card-bg);
             padding: 40px 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Shadow lebih gelap */
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 100%; max-width: 400px; text-align: center;
         }
 
         .logo-img {
-            width: 100px;
-            margin-bottom: 20px;
-            /* Filter otomatis ikut tema */
-            filter: var(--logo-filter);
+            width: 120px; margin-bottom: 20px;
+            filter: var(--logo-filter); transition: filter 0.3s;
         }
 
-        /* ... SISA CSS LAINNYA TETAP SAMA (h2, input, button, dll) ... */
-        h2 { margin-bottom: 10px; font-weight: 700; }
-        p { color: var(--text-color); opacity: 0.7; margin-bottom: 30px; font-size: 0.9rem; }
-        .form-group { margin-bottom: 20px; text-align: left; }
+        h2 { margin-bottom: 5px; font-weight: 700; }
+        p { opacity: 0.7; margin-bottom: 30px; font-size: 0.9rem; }
         
         input[type="password"] {
-            width: 100%; padding: 15px;
-            border: 2px solid var(--input-border);
-            border-radius: 12px; font-size: 1.1rem;
-            background-color: var(--input-bg);
-            color: var(--text-color);
-            text-align: center; letter-spacing: 2px; transition: 0.3s;
+            width: 100%; padding: 15px; border: 2px solid var(--input-border);
+            border-radius: 12px; font-size: 1.1rem; background-color: var(--input-bg);
+            color: var(--text-color); text-align: center; letter-spacing: 2px;
+            margin-bottom: 20px;
         }
         input:focus { border-color: var(--accent); outline: none; }
 
         .btn-login {
-            width: 100%; padding: 15px;
-            background-color: var(--accent);
-            color: #000; /* Text Hitam agar kontras dengan hijau terang */
-            border: none; border-radius: 12px;
-            font-size: 1rem; font-weight: 700;
-            cursor: pointer; transition: 0.2s;
+            width: 100%; padding: 15px; background-color: var(--accent);
+            color: #000; border: none; border-radius: 12px;
+            font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.2s;
         }
-        .btn-login:hover { opacity: 0.9; transform: translateY(-2px); }
-
-        #error-msg { color: var(--error); font-size: 0.85rem; margin-top: 15px; display: none; }
+        .btn-login:hover { transform: scale(1.02); }
         .shake { animation: shake 0.5s; }
-        @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25%, 75% { transform: translateX(-5px); } 50% { transform: translateX(5px); } }
+        
+        #error-msg { color: var(--error); margin-top: 15px; display: none; font-size: 0.9rem;}
     </style>
 </head>
 <body>
-
     <div class="login-card" id="card">
         <img src="https://ghazabegins.cyou/tj/logo.PNG" alt="Logo" class="logo-img">
         <h2>Akses Terbatas</h2>
-        <p>Masukkan kode keamanan untuk masuk.</p>
-
+        <p>Masukkan kode keamanan</p>
         <form id="loginForm">
-            <div class="form-group">
-                <input type="password" id="password" placeholder="••••••" required autofocus>
-            </div>
+            <input type="password" id="password" placeholder="••••••" required>
             <button type="submit" class="btn-login">Buka Dashboard 🔓</button>
-            <div id="error-msg">Password salah! Coba lagi.</div>
+            <div id="error-msg">Password salah!</div>
         </form>
     </div>
 
     <script>
-        const loginForm = document.getElementById('loginForm');
-        const passInput = document.getElementById('password');
-        const errorMsg = document.getElementById('error-msg');
-        const card = document.getElementById('card');
-
-        // --- ATUR PASSWORD DI SINI ---
-        const PASSWORD_RAHASIA = "uci123"; 
-        // -----------------------------
-
-        // Cek apakah sudah login sebelumnya? Kalau sudah, langsung lempar ke index
-        if(localStorage.getItem('isLoggedIn') === 'true') {
-            window.location.href = 'index.html';
-        }
-
-        loginForm.addEventListener('submit', function(e) {
+        const PASSWORD_RAHASIA = "uci"; // GANTI PASSWORD DISINI
+        
+        if(localStorage.getItem('isLoggedIn') === 'true') window.location.href = 'index.html';
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            const pass = document.getElementById('password');
+            const card = document.getElementById('card');
             
-            if(passInput.value === PASSWORD_RAHASIA) {
-                // Simpan status login
+            if(pass.value === PASSWORD_RAHASIA) {
                 localStorage.setItem('isLoggedIn', 'true');
-                // Pindah ke dashboard
                 window.location.href = 'index.html';
             } else {
-                // Password Salah
-                errorMsg.style.display = 'block';
+                document.getElementById('error-msg').style.display = 'block';
                 card.classList.add('shake');
-                passInput.value = '';
-                
-                // Hapus animasi shake biar bisa dipake lagi
-                setTimeout(() => {
-                    card.classList.remove('shake');
-                }, 500);
+                pass.value = '';
+                setTimeout(() => card.classList.remove('shake'), 500);
             }
         });
     </script>
