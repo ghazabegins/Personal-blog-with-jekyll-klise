@@ -6,7 +6,7 @@ Website ini dirancang sebagai platform portofolio dan blog yang cepat, aman, dan
 
 ## 🚀 Demo Langsung
 Kunjungi website yang sudah aktif di sini:
-> **[https://ghazabegins.github.io](https://ghazabegins.github.io)**
+> **[https://ghazabegins.cyou](https://ghazabegins.cyou)**
 
 ## ✨ Fitur Utama
 
